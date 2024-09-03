@@ -83,6 +83,8 @@ jobs:
     permissions:
       contents: write
       packages: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
         package: ${{ fromJSON(needs.check-updated-projects.outputs.packages) }}
