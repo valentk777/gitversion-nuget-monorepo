@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>$(ProjectName)</PackageId>
+        <IsPackable>true</IsPackable>
+        <NuspecProperties>version=$(Version);configuration=$(Configuration);commit=$(commit);branch=$(branch)</NuspecProperties>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>..\..\pkg\</PackageOutputPath>
+    </PropertyGroup>
+
+</Project>
