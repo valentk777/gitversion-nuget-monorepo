@@ -33,14 +33,14 @@ tracks-release-branches: false
 is-release-branch: false
 is-main-branch: false
 strategies:
-# - ConfiguredNextVersion
+- ConfiguredNextVersion
 # - TaggedCommit
 # - Fallback
 - Mainline
 branches:
   main:
     mode: ContinuousDeployment
-    label: ''
+    label: 'nuget1-'
     increment: Patch
     prevent-increment:
       of-merged-branch: true
