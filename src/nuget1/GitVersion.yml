@@ -32,7 +32,7 @@ is-source-branch-for: []
 tracks-release-branches: false
 is-release-branch: false
 is-main-branch: false
-strategies:
+strategies: 
 - ConfiguredNextVersion
 # - TaggedCommit
 # - Fallback
