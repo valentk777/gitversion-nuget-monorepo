@@ -25,9 +25,9 @@ jobs:
         with:
           filters: |
 
-            Nuget1: 'src/nuget1/**'
-            Nuget2: 'src/nuget2/**'
-            Nuget3: 'src/nuget3/**'
+            nuget1: 'src/nuget1/**'
+            nuget2: 'src/nuget2/**'
+            nuget3: 'src/nuget3/**'
 
   get-version:
     name: Get version
