@@ -53,7 +53,7 @@ branches:
     is-release-branch: false
     is-main-branch: true
     pre-release-weight: 55000
-  branch:
+  branch: 
     mode: ContinuousDeployment
     label: '{BranchName}'
     increment: Patch

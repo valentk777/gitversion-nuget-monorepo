@@ -27,7 +27,7 @@ track-merge-target: false
 track-merge-message: true
 commit-message-incrementing: Enabled
 regex: '' 
-source-branches: []
+source-branches: [] 
 is-source-branch-for: []
 tracks-release-branches: false
 is-release-branch: false

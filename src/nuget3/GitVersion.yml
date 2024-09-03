@@ -34,7 +34,7 @@ is-release-branch: false
 is-main-branch: false
 strategies:
 # - ConfiguredNextVersion
-# - TaggedCommit
+# - TaggedCommit 
 # - Fallback
 - Mainline
 branches:

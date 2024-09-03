@@ -93,5 +93,5 @@ jobs:
         uses: actions/create-release@latest
         with:
           tag_name: ${{ matrix.package }}-${{ needs.get-version.outputs.version }}
-          release_name: ${{ needs.get-version.outputs.version }}
+          release_name: ${{ matrix.package }}-${{ needs.get-version.outputs.version }}
           prerelease: false
