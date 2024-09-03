@@ -31,7 +31,7 @@ jobs:
 
   get-version:
     name: Get version
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [check-updated-projects]
     if: github.ref_name == 'test' || github.ref_name == 'staging' || github.ref_name == 'main' || github.event_name == 'workflow_dispatch'
     permissions:

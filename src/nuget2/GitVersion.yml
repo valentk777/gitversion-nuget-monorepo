@@ -3,13 +3,13 @@
 
 assembly-versioning-scheme: MajorMinorPatch
 assembly-file-versioning-scheme: MajorMinorPatch
-tag-prefix: 'nuget1-'
+tag-prefix: 'nuget2-'
 # version-in-branch-pattern: (?<version>[vV]?\d+(\.\d+)?(\.\d+)?).*
 major-version-bump-message: '(BREAKING CHANGE:|major)'
 minor-version-bump-message: '(feat|feature)\s?\(.*?\):?'
 patch-version-bump-message: '(fix|hotfix|refactor)\s?\(.*?\):?'
 # no-bump-message: '\+semver:\s?(none|skip)'
-tag-pre-release-weight: 60000
+tag-pre-release-weight: 60000 
 commit-date-format: yyyy-MM-dd
 merge-message-formats: {}
 update-build-number: true  
@@ -40,7 +40,7 @@ strategies:
 branches:
   main:
     mode: ContinuousDeployment
-    label: 'nuget2-'
+    label: ''
     increment: Patch
     prevent-increment:
       of-merged-branch: true
@@ -55,7 +55,7 @@ branches:
     pre-release-weight: 55000
   branch:
     mode: ContinuousDeployment
-    label: 'nuget2-*-{BranchName}'
+    label: '{BranchName}'
     increment: Patch
     prevent-increment:
       of-merged-branch: true
