@@ -1,22 +1,9 @@
 # workflow: ""
 # tag-pre-release-weight: 0
-# branches:
-#   main:
-#     regex: ^main$
-#     source-branches: [ main ]
-#     tag: ''
-#     is-mainline: true
-#     increment: None
-#   branch:
-#     regex: ^(?!main$|staging$|test$).+$
-#     source-branches: [ ]
-#     is-mainline: false
-#     pre-release-weight: 0
- 
 
 assembly-versioning-scheme: MajorMinorPatch
 assembly-file-versioning-scheme: MajorMinorPatch
-# tag-prefix: 'nuget3-'
+tag-prefix: 'nuget1-'
 # version-in-branch-pattern: (?<version>[vV]?\d+(\.\d+)?(\.\d+)?).*
 major-version-bump-message: '(BREAKING CHANGE:|major)'
 minor-version-bump-message: '(feat|feature)\s?\(.*?\):?'
@@ -25,12 +12,12 @@ patch-version-bump-message: '(fix|hotfix|refactor)\s?\(.*?\):?'
 tag-pre-release-weight: 60000
 commit-date-format: yyyy-MM-dd
 merge-message-formats: {}
-update-build-number: true
+update-build-number: true  
 semantic-version-format: Strict
 ignore:
-  sha: []
+  sha: [] 
 mode: ContinuousDelivery
-label: '{BranchName}'
+label: '{BranchName}' 
 increment: Inherit
 prevent-increment:
   of-merged-branch: false
@@ -47,12 +34,13 @@ is-release-branch: false
 is-main-branch: false
 strategies:
 # - ConfiguredNextVersion
-- Mainline
 # - TaggedCommit
+# - Fallback
+- Mainline
 branches:
   main:
     mode: ContinuousDeployment
-    label: 'project-'
+    label: 'nuget3-'
     increment: Patch
     prevent-increment:
       of-merged-branch: true
@@ -65,54 +53,19 @@ branches:
     is-release-branch: false
     is-main-branch: true
     pre-release-weight: 55000
-  # feature:
-  #   mode: ContinuousDelivery
-  #   label: '{BranchName}'
-  #   increment: Minor
-  #   prevent-increment:
-  #     when-current-commit-tagged: false
-  #   track-merge-message: true
-  #   regex: ^features?[/-](?<BranchName>.+)
-  #   source-branches:
-  #   - main
-  #   is-source-branch-for: []
-  #   is-main-branch: false
-  #   pre-release-weight: 30000
-  # hotfix:
-  #   mode: ContinuousDelivery
-  #   label: '{BranchName}'
-  #   increment: Patch
-  #   prevent-increment:
-  #     when-current-commit-tagged: false
-  #   regex: ^hotfix(es)?[/-](?<BranchName>.+)
-  #   source-branches:
-  #   - main
-  #   is-source-branch-for: []
-  #   is-release-branch: true
-  #   is-main-branch: false
-  #   pre-release-weight: 30000
-  # pull-request:
-  #   mode: ContinuousDelivery
-  #   label: PullRequest
-  #   increment: Inherit
-  #   prevent-increment:
-  #     of-merged-branch: true
-  #     when-current-commit-tagged: false
-  #   label-number-pattern: '[/-](?<number>\d+)'
-  #   track-merge-message: true
-  #   regex: ^(pull|pull\-requests|pr)[/-]
-  #   source-branches:
-  #   - main
-  #   - feature
-  #   - hotfix
-  #   is-source-branch-for: []
-  #   pre-release-weight: 30000
-  # unknown:
-  #   increment: Patch
-  #   prevent-increment:
-  #     when-current-commit-tagged: false
-  #   regex: (?<BranchName>.+)
-  #   source-branches:
-  #   - main
-  #   is-source-branch-for: []
-  #   pre-release-weight: 30000
+  branch:
+    mode: ContinuousDeployment
+    label: 'nuget3-*-{BranchName}'
+    increment: Patch
+    prevent-increment:
+      of-merged-branch: true
+    track-merge-target: false
+    track-merge-message: true
+    regex: ^(?!main$|staging$|test$).+$
+    source-branches: []
+    is-source-branch-for: []
+    tracks-release-branches: false
+    is-release-branch: false
+    is-main-branch: false
+    pre-release-weight: 30000
+    

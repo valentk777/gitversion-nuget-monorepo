@@ -1,0 +1,95 @@
+﻿name: Pipeline
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-updated-projects:
+    name: Check changed projects
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check file changes
+        uses: dorny/paths-filter@v3.0.2
+        id: filter
+        with:
+          filters: |
+
+            Nuget1: 'src/nuget1/**'
+            Nuget2: 'src/nuget2/**'
+            Nuget3: 'src/nuget3/**'
+
+  get-version:
+    name: Get version
+    runs-on: self-hosted
+    needs: [check-updated-projects]
+    if: github.ref_name == 'test' || github.ref_name == 'staging' || github.ref_name == 'main' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        package: ${{ fromJSON(needs.check-updated-projects.outputs.packages) }}
+    outputs:
+      version: ${{ steps.gitversion.outputs.semVer }}
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: "6.x"
+
+      - name: Determine Version
+        id: gitversion
+        run: |
+          dotnet-gitversion /targetpath 'src/${{ matrix.package }}' /config GitVersion.yml
+          echo "semVer=$(dotnet-gitversion /targetpath 'src/${{ matrix.package }}' /config GitVersion.yml /showvariable SemVer)" >> "$GITHUB_OUTPUT"
+
+      # - name: Determine Version
+      #   id: gitversion
+      #   uses: gittools/actions/gitversion/execute@v3.0.0
+      #   with:
+      #     useConfigFile: true
+
+      - name: Print version changes
+        run: |
+          echo "new version - v${{ steps.gitversion.outputs.semVer }}"
+
+  tag-nuget:
+    name: Tag
+    needs: [check-updated-projects, get-version]
+    runs-on: ubuntu-latest
+    if: ${{ needs.get-version.result == 'success' }}
+    permissions:
+      contents: write
+      packages: read
+    strategy:
+      matrix:
+        package: ${{ fromJSON(needs.check-updated-projects.outputs.packages) }}
+    steps:
+      - name: Release
+        uses: actions/create-release@latest
+        with:
+          tag_name: ${{ needs.get-version.outputs.version }}
+          release_name: ${{ needs.get-version.outputs.version }}
+          prerelease: false
