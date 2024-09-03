@@ -18,7 +18,7 @@ ignore:
   sha: [] 
 mode: ContinuousDelivery
 label: '{BranchName}' 
-increment: Inherit
+increment: Inherit 
 prevent-increment:
   of-merged-branch: false
   when-branch-merged: false

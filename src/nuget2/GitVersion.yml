@@ -19,7 +19,7 @@ ignore:
 mode: ContinuousDelivery
 label: '{BranchName}' 
 increment: Inherit
-prevent-increment:
+prevent-increment: 
   of-merged-branch: false
   when-branch-merged: false
   when-current-commit-tagged: true
